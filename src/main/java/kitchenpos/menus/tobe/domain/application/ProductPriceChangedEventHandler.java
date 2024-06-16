@@ -30,7 +30,7 @@ class DefaultProductPriceChangedEventHandler implements ProductPriceChangedEvent
         Product product = productRepository.findById(productId).get();
         for (final Menu menu : menus) {
             product.updateMenuProductPrice(menu);
-            BigDecimal threshHoldPrice = menu.getSumOfProductPriceAndQuantity();
+            BigDecimal threshHoldPrice = menu.createMenuProducts().getSumOfProductPriceAndQuantity();
             if (menu.getPrice().compareTo(threshHoldPrice) > 0) {
                 menu.hide();
             }

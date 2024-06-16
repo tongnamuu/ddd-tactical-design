@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 import kitchenpos.menus.tobe.domain.vo.MenuName;
 import kitchenpos.menus.tobe.domain.vo.MenuPrice;
+import kitchenpos.menus.tobe.domain.vo.MenuProducts;
 
 @Table(name = "menu")
 @Entity
@@ -74,7 +75,7 @@ public class Menu {
     }
 
     public void changePrice(final MenuPrice menuPrice) {
-        BigDecimal threshHoldPrice = this.getSumOfProductPriceAndQuantity();
+        BigDecimal threshHoldPrice = this.createMenuProducts().getSumOfProductPriceAndQuantity();
         if (menuPrice.getValue().compareTo(threshHoldPrice) > 0) {
             throw new IllegalArgumentException("New Price cannot be greater than threshHoldPrice");
         }
@@ -90,7 +91,7 @@ public class Menu {
     }
 
     public void displayOn() {
-        BigDecimal threshHoldPrice = getSumOfProductPriceAndQuantity();
+        BigDecimal threshHoldPrice = this.createMenuProducts().getSumOfProductPriceAndQuantity();
         if (this.price.compareTo(threshHoldPrice) > 0) {
             throw new IllegalStateException();
         }
@@ -105,14 +106,7 @@ public class Menu {
         return menuProducts;
     }
 
-    public BigDecimal getSumOfProductPriceAndQuantity() {
-        BigDecimal sum = BigDecimal.ZERO;
-        for (final MenuProduct menuProduct : this.menuProducts) {
-            sum = sum.add(
-                menuProduct.getProductPrice()
-                           .multiply(BigDecimal.valueOf(menuProduct.getQuantity()))
-            );
-        }
-        return sum;
+    public MenuProducts createMenuProducts() {
+        return MenuProducts.of(this.menuProducts);
     }
 }
