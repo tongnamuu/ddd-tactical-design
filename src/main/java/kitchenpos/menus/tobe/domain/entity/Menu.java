@@ -15,6 +15,7 @@ import java.util.UUID;
 import kitchenpos.menus.tobe.domain.vo.MenuName;
 import kitchenpos.menus.tobe.domain.vo.MenuPrice;
 import kitchenpos.menus.tobe.domain.vo.MenuProducts;
+import kitchenpos.products.tobe.domain.entity.Product;
 
 @Table(name = "menu")
 @Entity
@@ -108,5 +109,19 @@ public class Menu {
 
     public MenuProducts createMenuProducts() {
         return MenuProducts.of(this.menuProducts);
+    }
+
+    public void updateMenuProductPrice(Product product) {
+        this.menuProducts.forEach(
+            menuProduct -> {
+                if (menuProduct.getProductId().equals(product.getId())) {
+                    menuProduct.updateProductPrice(product.getPrice());
+                }
+            }
+        );
+        BigDecimal threshHoldPrice = this.createMenuProducts().getSumOfProductPriceAndQuantity();
+        if (this.price.compareTo(threshHoldPrice) > 0) {
+            this.hide();
+        }
     }
 }

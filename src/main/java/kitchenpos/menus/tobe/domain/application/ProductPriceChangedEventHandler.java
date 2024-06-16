@@ -1,6 +1,5 @@
 package kitchenpos.menus.tobe.domain.application;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import kitchenpos.menus.tobe.domain.entity.Menu;
@@ -29,11 +28,7 @@ class DefaultProductPriceChangedEventHandler implements ProductPriceChangedEvent
         final List<Menu> menus = menuRepository.findMenusByProductId(productId);
         Product product = productRepository.findById(productId).get();
         for (final Menu menu : menus) {
-            product.updateMenuProductPrice(menu);
-            BigDecimal threshHoldPrice = menu.createMenuProducts().getSumOfProductPriceAndQuantity();
-            if (menu.getPrice().compareTo(threshHoldPrice) > 0) {
-                menu.hide();
-            }
+            menu.updateMenuProductPrice(product);
             menuRepository.saveMenu(menu);
         }
     }
