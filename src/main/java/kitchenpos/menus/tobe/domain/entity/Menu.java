@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.UUID;
 import kitchenpos.menus.tobe.domain.vo.MenuName;
 import kitchenpos.menus.tobe.domain.vo.MenuPrice;
-import kitchenpos.products.tobe.domain.repository.ProductRepository;
 
 @Table(name = "menu")
 @Entity
@@ -74,7 +73,7 @@ public class Menu {
         return price;
     }
 
-    public void changePrice(final MenuPrice menuPrice, ProductRepository productRepository) {
+    public void changePrice(final MenuPrice menuPrice) {
         BigDecimal threshHoldPrice = this.getSumOfProductPriceAndQuantity();
         if (menuPrice.getValue().compareTo(threshHoldPrice) > 0) {
             throw new IllegalArgumentException("New Price cannot be greater than threshHoldPrice");
@@ -90,7 +89,7 @@ public class Menu {
         return displayed;
     }
 
-    public void displayOn(ProductRepository productRepository) {
+    public void displayOn() {
         BigDecimal threshHoldPrice = getSumOfProductPriceAndQuantity();
         if (this.price.compareTo(threshHoldPrice) > 0) {
             throw new IllegalStateException();

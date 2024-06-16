@@ -4,7 +4,6 @@ import java.util.NoSuchElementException;
 import java.util.UUID;
 import kitchenpos.menus.tobe.domain.entity.Menu;
 import kitchenpos.menus.tobe.domain.repository.MenuRepository;
-import kitchenpos.products.tobe.domain.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
 @FunctionalInterface
@@ -15,11 +14,9 @@ public interface HideMenu {
 @Service
 class DefaultHideMenu implements HideMenu {
     private final MenuRepository menuRepository;
-    private final ProductRepository productRepository;
 
-    public DefaultHideMenu(MenuRepository menuRepository, ProductRepository productRepository) {
+    public DefaultHideMenu(MenuRepository menuRepository) {
         this.menuRepository = menuRepository;
-        this.productRepository = productRepository;
     }
 
     @Override

@@ -55,9 +55,9 @@ class MenuCommandHandlerTest {
         purgomalumClient = new FakePurgomalumClient();
         menuCommandHandler = new MenuCommandHandler(menuRepository,
                                                     new CreateMenuTestFixture(menuRepository, productRepository, purgomalumClient),
-                                                    new ChangeMenuPriceTestFixture(menuRepository, productRepository),
-                                                    new DisplayMenuTestFixture(menuRepository, productRepository),
-                                                    new HideMenuTextFixture(menuRepository, productRepository),
+                                                    new ChangeMenuPriceTestFixture(menuRepository),
+                                                    new DisplayMenuTestFixture(menuRepository),
+                                                    new HideMenuTextFixture(menuRepository),
                                                     new CreateMenuGroupTestFixture(menuRepository)
         );
         menuGroupId = menuRepository.saveMenuGroup(menuGroup()).getId();
