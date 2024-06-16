@@ -1,8 +1,11 @@
-package kitchenpos.eatinorders.domain;
+package kitchenpos.eatinorders.tobe.domain.repository;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import kitchenpos.eatinorders.tobe.domain.vo.OrderStatus;
+import kitchenpos.eatinorders.tobe.domain.entity.OrderTable;
+import kitchenpos.eatinorders.tobe.domain.entity.Order;
 
 public interface OrderRepository {
     Order save(Order order);
