@@ -1,6 +1,7 @@
 package kitchenpos.menus.tobe.domain.entity;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
 import java.util.UUID;
+import kitchenpos.menus.tobe.domain.vo.MenuProductQuantity;
 import kitchenpos.products.tobe.domain.entity.Product;
 
 @Table(name = "menu_product")
@@ -21,8 +23,8 @@ public class MenuProduct {
     @Column(name = "product_id", nullable = false)
     private UUID productId;
 
-    @Column(name = "quantity", nullable = false)
-    private long quantity;
+    @Embedded
+    private MenuProductQuantity quantity;
 
     @Column(name = "product_price", nullable = false)
     private BigDecimal productPrice;
@@ -30,7 +32,7 @@ public class MenuProduct {
     protected MenuProduct() {
     }
 
-    public MenuProduct(Product product, long quantity) {
+    public MenuProduct(Product product, MenuProductQuantity quantity) {
         this.productId = product.getId();
         this.productPrice = product.getPrice();
         this.quantity = quantity;
@@ -45,7 +47,7 @@ public class MenuProduct {
     }
 
     public long getQuantity() {
-        return quantity;
+        return quantity.getValue();
     }
 
     public UUID getProductId() {
@@ -62,6 +64,6 @@ public class MenuProduct {
 
     public BigDecimal getTotalPrice() {
         return this.productPrice
-                   .multiply(BigDecimal.valueOf(this.quantity));
+                   .multiply(BigDecimal.valueOf(this.quantity.getValue()));
     }
 }

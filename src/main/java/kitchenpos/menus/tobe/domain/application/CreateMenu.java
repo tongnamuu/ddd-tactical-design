@@ -13,6 +13,8 @@ import kitchenpos.menus.tobe.domain.entity.MenuProduct;
 import kitchenpos.menus.tobe.domain.repository.MenuRepository;
 import kitchenpos.menus.tobe.domain.vo.MenuName;
 import kitchenpos.menus.tobe.domain.vo.MenuPrice;
+import kitchenpos.menus.tobe.domain.vo.MenuProductQuantity;
+import kitchenpos.menus.tobe.domain.vo.MenuProducts;
 import kitchenpos.menus.tobe.dto.MenuCreateDto;
 import kitchenpos.menus.tobe.dto.MenuProductCreateDto;
 import kitchenpos.products.tobe.domain.entity.Product;
@@ -30,7 +32,8 @@ class DefaultCreateMenu implements CreateMenu {
     private final ProductRepository productRepository;
     private final PurgomalumClient purgomalumClient;
 
-    public DefaultCreateMenu(MenuRepository menuRepository, ProductRepository productRepository, PurgomalumClient purgomalumClient) {
+    public DefaultCreateMenu(MenuRepository menuRepository, ProductRepository productRepository,
+                             PurgomalumClient purgomalumClient) {
         this.menuRepository = menuRepository;
         this.productRepository = productRepository;
         this.purgomalumClient = purgomalumClient;
@@ -40,35 +43,31 @@ class DefaultCreateMenu implements CreateMenu {
     public final Menu execute(MenuCreateDto menucreateDto) {
         final MenuPrice menuPrice = MenuPrice.of(menucreateDto.getPrice());
         final MenuGroup menuGroup = menuRepository.findMenuGroupById(menucreateDto.getMenuGroupId())
-                                                       .orElseThrow(NoSuchElementException::new);
+                                                  .orElseThrow(NoSuchElementException::new);
         final List<MenuProductCreateDto> menuProductRequests = menucreateDto.getMenuProducts();
         if (Objects.isNull(menuProductRequests) || menuProductRequests.isEmpty()) {
             throw new IllegalArgumentException();
         }
         final List<Product> products = productRepository.findAllByIdIn(
-                menuProductRequests.stream()
-                                   .map(MenuProductCreateDto::getProductId)
-                                   .toList()
+            menuProductRequests.stream()
+                               .map(MenuProductCreateDto::getProductId)
+                               .toList()
         );
         if (products.size() != menuProductRequests.size()) {
             throw new IllegalArgumentException();
         }
         final List<MenuProduct> menuProducts = new ArrayList<>();
-        BigDecimal sum = BigDecimal.ZERO;
         for (final MenuProductCreateDto menuProductRequest : menuProductRequests) {
-            final long quantity = menuProductRequest.getQuantity();
-            if (quantity < 0) {
-                throw new IllegalArgumentException();
-            }
-            final Product product = productRepository.findById(menuProductRequest.getProductId())
-                                                     .orElseThrow(NoSuchElementException::new);
-            sum = sum.add(
-                    product.getPrice()
-                           .multiply(BigDecimal.valueOf(quantity))
-            );
+            final MenuProductQuantity quantity = MenuProductQuantity.of(menuProductRequest.getQuantity());
+            final Product product = products.stream()
+                                            .filter(it -> it.getId().equals(menuProductRequest.getProductId()))
+                                            .findFirst()
+                                            .orElseThrow(NoSuchElementException::new);
             final MenuProduct menuProduct = new MenuProduct(product, quantity);
             menuProducts.add(menuProduct);
         }
+        MenuProducts menuProduct = MenuProducts.of(menuProducts);
+        BigDecimal sum = menuProduct.getSumOfProductPriceAndQuantity();
         if (menuPrice.getValue().compareTo(sum) > 0) {
             throw new IllegalArgumentException("메뉴의 가격이 너무 큽니다");
         }

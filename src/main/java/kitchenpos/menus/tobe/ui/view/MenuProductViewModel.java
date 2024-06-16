@@ -23,7 +23,7 @@ public class MenuProductViewModel {
         return new MenuProductViewModel(
             menuProduct.getProductId().toString(),
             null,
-            -1,
+            menuProduct.getProductPrice().longValue(),
             menuProduct.getQuantity()
         );
     }

@@ -11,6 +11,7 @@ import kitchenpos.menus.tobe.domain.entity.MenuProduct;
 import kitchenpos.menus.tobe.domain.vo.MenuGroupName;
 import kitchenpos.menus.tobe.domain.vo.MenuName;
 import kitchenpos.menus.tobe.domain.vo.MenuPrice;
+import kitchenpos.menus.tobe.domain.vo.MenuProductQuantity;
 import kitchenpos.products.tobe.domain.entity.Product;
 import kitchenpos.products.tobe.dto.ProductPriceChangeDto;
 
@@ -52,11 +53,11 @@ public class Fixtures {
     }
 
     public static MenuProduct menuProduct() {
-        return new MenuProduct(product(), 2L);
+        return new MenuProduct(product(), MenuProductQuantity.of(2L));
     }
 
     public static MenuProduct menuProduct(final Product product, final long quantity) {
-        return new MenuProduct(product, quantity);
+        return new MenuProduct(product, MenuProductQuantity.of(quantity));
     }
 
     public static Order order(final OrderStatus status, final String deliveryAddress) {
