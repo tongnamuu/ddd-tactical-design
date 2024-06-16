@@ -1,6 +1,7 @@
 package kitchenpos.menus.tobe.domain.application;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import kitchenpos.menus.tobe.domain.entity.Menu;
 import kitchenpos.menus.tobe.domain.repository.MenuRepository;
@@ -26,7 +27,8 @@ class DefaultProductPriceChangedEventHandler implements ProductPriceChangedEvent
     @Override
     public void changeMenuProductPriceAndHide(UUID productId) {
         final List<Menu> menus = menuRepository.findMenusByProductId(productId);
-        Product product = productRepository.findById(productId).get();
+        Product product = productRepository.findById(productId)
+                                           .orElseThrow(() -> new NoSuchElementException("상품이 존재하지 않습니다! 상품 식별자 : " + productId));
         for (final Menu menu : menus) {
             menu.updateMenuProductPrice(product);
             menuRepository.saveMenu(menu);
