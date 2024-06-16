@@ -53,8 +53,7 @@ class MenuCommandHandlerTest {
         menuRepository = new InMemoryMenuRepository();
         productRepository = new InMemoryProductRepository();
         purgomalumClient = new FakePurgomalumClient();
-        menuCommandHandler = new MenuCommandHandler(menuRepository,
-                                                    new CreateMenuTestFixture(menuRepository, productRepository, purgomalumClient),
+        menuCommandHandler = new MenuCommandHandler(new CreateMenuTestFixture(menuRepository, productRepository, purgomalumClient),
                                                     new ChangeMenuPriceTestFixture(menuRepository),
                                                     new DisplayMenuTestFixture(menuRepository),
                                                     new HideMenuTextFixture(menuRepository),

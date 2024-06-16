@@ -8,7 +8,6 @@ import kitchenpos.menus.tobe.domain.application.DisplayMenu;
 import kitchenpos.menus.tobe.domain.application.HideMenu;
 import kitchenpos.menus.tobe.domain.entity.Menu;
 import kitchenpos.menus.tobe.domain.entity.MenuGroup;
-import kitchenpos.menus.tobe.domain.repository.MenuRepository;
 import kitchenpos.menus.tobe.dto.MenuChangePriceDto;
 import kitchenpos.menus.tobe.dto.MenuCreateDto;
 import kitchenpos.menus.tobe.dto.MenuGroupCreateDto;
@@ -17,19 +16,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MenuCommandHandler {
-    private final MenuRepository menuRepository;
     private final CreateMenu createMenu;
     private final ChangeMenuPrice changeMenuPrice;
     private final DisplayMenu displayMenu;
     private final HideMenu hideMenu;
     private final CreateMenuGroup createMenuGroup;
 
-    public MenuCommandHandler(MenuRepository menuRepository,
-                              CreateMenu createMenu,
+    public MenuCommandHandler(CreateMenu createMenu,
                               ChangeMenuPrice changeMenuPrice,
                               DisplayMenu displayMenu,
-                              HideMenu hideMenu, CreateMenuGroup createMenuGroup) {
-        this.menuRepository = menuRepository;
+                              HideMenu hideMenu,
+                              CreateMenuGroup createMenuGroup) {
         this.createMenu = createMenu;
         this.changeMenuPrice = changeMenuPrice;
         this.displayMenu = displayMenu;
