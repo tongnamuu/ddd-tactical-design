@@ -21,6 +21,7 @@ create table menu_product
     quantity   bigint     not null,
     product_id binary(16) not null,
     menu_id    binary(16) not null,
+    product_price decimal(19, 2) not null,
     primary key (seq)
 ) engine = InnoDB;
 
