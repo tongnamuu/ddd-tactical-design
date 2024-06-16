@@ -21,10 +21,7 @@ public class MenuProducts {
     public BigDecimal getSumOfProductPriceAndQuantity() {
         BigDecimal sum = BigDecimal.ZERO;
         for (final MenuProduct menuProduct : this.menuProducts) {
-            sum = sum.add(
-                menuProduct.getProductPrice()
-                           .multiply(BigDecimal.valueOf(menuProduct.getQuantity()))
-            );
+            sum = sum.add(menuProduct.getTotalPrice());
         }
         return sum;
     }

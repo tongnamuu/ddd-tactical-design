@@ -59,4 +59,9 @@ public class MenuProduct {
     public void updateProductPrice(BigDecimal productPrice) {
         this.productPrice = productPrice;
     }
+
+    public BigDecimal getTotalPrice() {
+        return this.productPrice
+                   .multiply(BigDecimal.valueOf(this.quantity));
+    }
 }
