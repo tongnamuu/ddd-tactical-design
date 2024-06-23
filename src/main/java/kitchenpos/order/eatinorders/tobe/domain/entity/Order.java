@@ -1,4 +1,4 @@
-package kitchenpos.eatinorders.tobe.domain.entity;
+package kitchenpos.order.eatinorders.tobe.domain.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,9 +14,10 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
-import kitchenpos.eatinorders.tobe.domain.vo.OrderStatus;
-import kitchenpos.eatinorders.tobe.domain.vo.OrderType;
+import kitchenpos.order.common.domain.vo.OrderStatus;
+import kitchenpos.order.common.domain.vo.OrderType;
 
 @Table(name = "orders")
 @Entity
@@ -27,11 +28,11 @@ public class Order {
 
     @Column(name = "type", nullable = false, columnDefinition = "varchar(255)")
     @Enumerated(EnumType.STRING)
-    private OrderType type;
+    private OrderType orderType;
 
     @Column(name = "status", nullable = false, columnDefinition = "varchar(255)")
     @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private OrderStatus orderStatus;
 
     @Column(name = "order_date_time", nullable = false)
     private LocalDateTime orderDateTime;
@@ -62,6 +63,22 @@ public class Order {
     public Order() {
     }
 
+    private Order(UUID orderId, OrderType type, List<OrderLineItem> orderLineItems, OrderTable orderTable) {
+        this.id = orderId;
+        this.orderType = type;
+        this.orderStatus = OrderStatus.WAITING;
+        this.orderDateTime = LocalDateTime.now();
+        this.orderLineItems = orderLineItems;
+        this.orderTable = orderTable;
+    }
+
+    public static Order createEatInOrder(UUID orderId, List<OrderLineItem> orderLineItems, OrderTable orderTable) {
+        Objects.requireNonNull(orderId);
+        Objects.requireNonNull(orderLineItems);
+        Objects.requireNonNull(orderTable);
+        return new Order(orderId, OrderType.EAT_IN, orderLineItems, orderTable);
+    }
+
     public UUID getId() {
         return id;
     }
@@ -70,20 +87,20 @@ public class Order {
         this.id = id;
     }
 
-    public OrderType getType() {
-        return type;
+    public OrderType getOrderType() {
+        return orderType;
     }
 
-    public void setType(final OrderType type) {
-        this.type = type;
+    public void setOrderType(final OrderType orderType) {
+        this.orderType = orderType;
     }
 
-    public OrderStatus getStatus() {
-        return status;
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setStatus(final OrderStatus status) {
-        this.status = status;
+    public void setOrderStatus(final OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public LocalDateTime getOrderDateTime() {

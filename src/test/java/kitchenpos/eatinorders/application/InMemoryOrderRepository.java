@@ -1,9 +1,9 @@
 package kitchenpos.eatinorders.application;
 
-import kitchenpos.eatinorders.tobe.domain.entity.Order;
-import kitchenpos.eatinorders.tobe.domain.repository.OrderRepository;
-import kitchenpos.eatinorders.tobe.domain.vo.OrderStatus;
-import kitchenpos.eatinorders.tobe.domain.entity.OrderTable;
+import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
+import kitchenpos.order.eatinorders.tobe.domain.repository.OrderRepository;
+import kitchenpos.order.common.domain.vo.OrderStatus;
+import kitchenpos.order.eatinorders.tobe.domain.entity.OrderTable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,6 +35,6 @@ public class InMemoryOrderRepository implements OrderRepository {
     public boolean existsByOrderTableAndStatusNot(final OrderTable orderTable, final OrderStatus status) {
         return orders.values()
             .stream()
-            .anyMatch(order -> order.getOrderTable().equals(orderTable) && order.getStatus() != status);
+            .anyMatch(order -> order.getOrderTable().equals(orderTable) && order.getOrderStatus() != status);
     }
 }

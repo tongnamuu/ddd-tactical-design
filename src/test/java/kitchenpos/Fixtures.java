@@ -1,10 +1,10 @@
 package kitchenpos;
 
-import kitchenpos.eatinorders.tobe.domain.entity.Order;
-import kitchenpos.eatinorders.tobe.domain.entity.OrderLineItem;
-import kitchenpos.eatinorders.tobe.domain.vo.OrderStatus;
-import kitchenpos.eatinorders.tobe.domain.entity.OrderTable;
-import kitchenpos.eatinorders.tobe.domain.vo.OrderType;
+import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
+import kitchenpos.order.eatinorders.tobe.domain.entity.OrderLineItem;
+import kitchenpos.order.common.domain.vo.OrderStatus;
+import kitchenpos.order.eatinorders.tobe.domain.entity.OrderTable;
+import kitchenpos.order.common.domain.vo.OrderType;
 import kitchenpos.menus.tobe.domain.entity.Menu;
 import kitchenpos.menus.tobe.domain.entity.MenuGroup;
 import kitchenpos.menus.tobe.domain.entity.MenuProduct;
@@ -63,8 +63,8 @@ public class Fixtures {
     public static Order order(final OrderStatus status, final String deliveryAddress) {
         final Order order = new Order();
         order.setId(UUID.randomUUID());
-        order.setType(OrderType.DELIVERY);
-        order.setStatus(status);
+        order.setOrderType(OrderType.DELIVERY);
+        order.setOrderStatus(status);
         order.setOrderDateTime(LocalDateTime.of(2020, 1, 1, 12, 0));
         order.setOrderLineItems(Arrays.asList(orderLineItem()));
         order.setDeliveryAddress(deliveryAddress);
@@ -74,8 +74,8 @@ public class Fixtures {
     public static Order order(final OrderStatus status) {
         final Order order = new Order();
         order.setId(UUID.randomUUID());
-        order.setType(OrderType.TAKEOUT);
-        order.setStatus(status);
+        order.setOrderType(OrderType.TAKEOUT);
+        order.setOrderStatus(status);
         order.setOrderDateTime(LocalDateTime.of(2020, 1, 1, 12, 0));
         order.setOrderLineItems(Arrays.asList(orderLineItem()));
         return order;
@@ -84,8 +84,8 @@ public class Fixtures {
     public static Order order(final OrderStatus status, final OrderTable orderTable) {
         final Order order = new Order();
         order.setId(UUID.randomUUID());
-        order.setType(OrderType.EAT_IN);
-        order.setStatus(status);
+        order.setOrderType(OrderType.EAT_IN);
+        order.setOrderStatus(status);
         order.setOrderDateTime(LocalDateTime.of(2020, 1, 1, 12, 0));
         order.setOrderLineItems(Arrays.asList(orderLineItem()));
         order.setOrderTable(orderTable);

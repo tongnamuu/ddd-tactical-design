@@ -1,10 +1,11 @@
-package kitchenpos.eatinorders.ui;
+package kitchenpos.order.eatinorders.tobe.ui;
 
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
-import kitchenpos.eatinorders.application.OrderService;
-import kitchenpos.eatinorders.tobe.domain.entity.Order;
+import kitchenpos.order.eatinorders.tobe.application.OrderService;
+import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
+import kitchenpos.order.eatinorders.tobe.dto.CreateOrderDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +25,7 @@ public class OrderRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> create(@RequestBody final Order request) {
+    public ResponseEntity<Order> create(@RequestBody final CreateOrderDto request) {
         final Order response = orderService.create(request);
         return ResponseEntity.created(URI.create("/api/orders/" + response.getId()))
                              .body(response);

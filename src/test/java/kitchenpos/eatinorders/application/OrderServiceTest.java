@@ -1,12 +1,13 @@
 package kitchenpos.eatinorders.application;
 
-import kitchenpos.eatinorders.tobe.domain.entity.Order;
-import kitchenpos.eatinorders.tobe.domain.entity.OrderLineItem;
-import kitchenpos.eatinorders.tobe.domain.repository.OrderRepository;
-import kitchenpos.eatinorders.tobe.domain.vo.OrderStatus;
-import kitchenpos.eatinorders.tobe.domain.entity.OrderTable;
-import kitchenpos.eatinorders.tobe.domain.repository.OrderTableRepository;
-import kitchenpos.eatinorders.tobe.domain.vo.OrderType;
+import kitchenpos.order.eatinorders.tobe.application.OrderService;
+import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
+import kitchenpos.order.eatinorders.tobe.domain.entity.OrderLineItem;
+import kitchenpos.order.eatinorders.tobe.domain.repository.OrderRepository;
+import kitchenpos.order.common.domain.vo.OrderStatus;
+import kitchenpos.order.eatinorders.tobe.domain.entity.OrderTable;
+import kitchenpos.order.eatinorders.tobe.domain.repository.OrderTableRepository;
+import kitchenpos.order.common.domain.vo.OrderType;
 import kitchenpos.menus.tobe.domain.repository.InMemoryMenuRepository;
 import kitchenpos.menus.tobe.domain.repository.MenuRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,8 +65,8 @@ class OrderServiceTest {
         assertThat(actual).isNotNull();
         assertAll(
             () -> assertThat(actual.getId()).isNotNull(),
-            () -> assertThat(actual.getType()).isEqualTo(expected.getType()),
-            () -> assertThat(actual.getStatus()).isEqualTo(OrderStatus.WAITING),
+            () -> assertThat(actual.getOrderType()).isEqualTo(expected.getOrderType()),
+            () -> assertThat(actual.getOrderStatus()).isEqualTo(OrderStatus.WAITING),
             () -> assertThat(actual.getOrderDateTime()).isNotNull(),
             () -> assertThat(actual.getOrderLineItems()).hasSize(1),
             () -> assertThat(actual.getDeliveryAddress()).isEqualTo(expected.getDeliveryAddress())
@@ -81,8 +82,8 @@ class OrderServiceTest {
         assertThat(actual).isNotNull();
         assertAll(
             () -> assertThat(actual.getId()).isNotNull(),
-            () -> assertThat(actual.getType()).isEqualTo(expected.getType()),
-            () -> assertThat(actual.getStatus()).isEqualTo(OrderStatus.WAITING),
+            () -> assertThat(actual.getOrderType()).isEqualTo(expected.getOrderType()),
+            () -> assertThat(actual.getOrderStatus()).isEqualTo(OrderStatus.WAITING),
             () -> assertThat(actual.getOrderDateTime()).isNotNull(),
             () -> assertThat(actual.getOrderLineItems()).hasSize(1)
         );
@@ -98,8 +99,8 @@ class OrderServiceTest {
         assertThat(actual).isNotNull();
         assertAll(
             () -> assertThat(actual.getId()).isNotNull(),
-            () -> assertThat(actual.getType()).isEqualTo(expected.getType()),
-            () -> assertThat(actual.getStatus()).isEqualTo(OrderStatus.WAITING),
+            () -> assertThat(actual.getOrderType()).isEqualTo(expected.getOrderType()),
+            () -> assertThat(actual.getOrderStatus()).isEqualTo(OrderStatus.WAITING),
             () -> assertThat(actual.getOrderDateTime()).isNotNull(),
             () -> assertThat(actual.getOrderLineItems()).hasSize(1),
             () -> assertThat(actual.getOrderTable().getId()).isEqualTo(expected.getOrderTableId())
@@ -204,7 +205,7 @@ class OrderServiceTest {
     void accept() {
         final UUID orderId = orderRepository.save(order(OrderStatus.WAITING, orderTable(true, 4))).getId();
         final Order actual = orderService.accept(orderId);
-        assertThat(actual.getStatus()).isEqualTo(OrderStatus.ACCEPTED);
+        assertThat(actual.getOrderStatus()).isEqualTo(OrderStatus.ACCEPTED);
     }
 
     @DisplayName("접수 대기 중인 주문만 접수할 수 있다.")
@@ -222,7 +223,7 @@ class OrderServiceTest {
         final UUID orderId = orderRepository.save(order(OrderStatus.WAITING, "서울시 송파구 위례성대로 2")).getId();
         final Order actual = orderService.accept(orderId);
         assertAll(
-            () -> assertThat(actual.getStatus()).isEqualTo(OrderStatus.ACCEPTED),
+            () -> assertThat(actual.getOrderStatus()).isEqualTo(OrderStatus.ACCEPTED),
             () -> assertThat(kitchenridersClient.getOrderId()).isEqualTo(orderId),
             () -> assertThat(kitchenridersClient.getDeliveryAddress()).isEqualTo("서울시 송파구 위례성대로 2")
         );
@@ -233,7 +234,7 @@ class OrderServiceTest {
     void serve() {
         final UUID orderId = orderRepository.save(order(OrderStatus.ACCEPTED)).getId();
         final Order actual = orderService.serve(orderId);
-        assertThat(actual.getStatus()).isEqualTo(OrderStatus.SERVED);
+        assertThat(actual.getOrderStatus()).isEqualTo(OrderStatus.SERVED);
     }
 
     @DisplayName("접수된 주문만 서빙할 수 있다.")
@@ -250,7 +251,7 @@ class OrderServiceTest {
     void startDelivery() {
         final UUID orderId = orderRepository.save(order(OrderStatus.SERVED, "서울시 송파구 위례성대로 2")).getId();
         final Order actual = orderService.startDelivery(orderId);
-        assertThat(actual.getStatus()).isEqualTo(OrderStatus.DELIVERING);
+        assertThat(actual.getOrderStatus()).isEqualTo(OrderStatus.DELIVERING);
     }
 
     @DisplayName("배달 주문만 배달할 수 있다.")
@@ -275,7 +276,7 @@ class OrderServiceTest {
     void completeDelivery() {
         final UUID orderId = orderRepository.save(order(OrderStatus.DELIVERING, "서울시 송파구 위례성대로 2")).getId();
         final Order actual = orderService.completeDelivery(orderId);
-        assertThat(actual.getStatus()).isEqualTo(OrderStatus.DELIVERED);
+        assertThat(actual.getOrderStatus()).isEqualTo(OrderStatus.DELIVERED);
     }
 
     @DisplayName("배달 중인 주문만 배달 완료할 수 있다.")
@@ -292,7 +293,7 @@ class OrderServiceTest {
     void complete() {
         final Order expected = orderRepository.save(order(OrderStatus.DELIVERED, "서울시 송파구 위례성대로 2"));
         final Order actual = orderService.complete(expected.getId());
-        assertThat(actual.getStatus()).isEqualTo(OrderStatus.COMPLETED);
+        assertThat(actual.getOrderStatus()).isEqualTo(OrderStatus.COMPLETED);
     }
 
     @DisplayName("배달 주문의 경우 배달 완료된 주문만 완료할 수 있다.")
@@ -320,7 +321,7 @@ class OrderServiceTest {
         final Order expected = orderRepository.save(order(OrderStatus.SERVED, orderTable));
         final Order actual = orderService.complete(expected.getId());
         assertAll(
-            () -> assertThat(actual.getStatus()).isEqualTo(OrderStatus.COMPLETED),
+            () -> assertThat(actual.getOrderStatus()).isEqualTo(OrderStatus.COMPLETED),
             () -> assertThat(orderTableRepository.findById(orderTable.getId()).get().isOccupied()).isFalse(),
             () -> assertThat(orderTableRepository.findById(orderTable.getId()).get().getNumberOfGuests()).isEqualTo(0)
         );
@@ -334,7 +335,7 @@ class OrderServiceTest {
         final Order expected = orderRepository.save(order(OrderStatus.SERVED, orderTable));
         final Order actual = orderService.complete(expected.getId());
         assertAll(
-            () -> assertThat(actual.getStatus()).isEqualTo(OrderStatus.COMPLETED),
+            () -> assertThat(actual.getOrderStatus()).isEqualTo(OrderStatus.COMPLETED),
             () -> assertThat(orderTableRepository.findById(orderTable.getId()).get().isOccupied()).isTrue(),
             () -> assertThat(orderTableRepository.findById(orderTable.getId()).get().getNumberOfGuests()).isEqualTo(4)
         );
@@ -356,7 +357,7 @@ class OrderServiceTest {
         final OrderLineItem... orderLineItems
     ) {
         final Order order = new Order();
-        order.setType(type);
+        order.setOrderType(type);
         order.setDeliveryAddress(deliveryAddress);
         order.setOrderLineItems(Arrays.asList(orderLineItems));
         return order;
@@ -368,7 +369,7 @@ class OrderServiceTest {
 
     private Order createOrderRequest(final OrderType orderType, final List<OrderLineItem> orderLineItems) {
         final Order order = new Order();
-        order.setType(orderType);
+        order.setOrderType(orderType);
         order.setOrderLineItems(orderLineItems);
         return order;
     }
@@ -379,7 +380,7 @@ class OrderServiceTest {
         final OrderLineItem... orderLineItems
     ) {
         final Order order = new Order();
-        order.setType(type);
+        order.setOrderType(type);
         order.setOrderTableId(orderTableId);
         order.setOrderLineItems(Arrays.asList(orderLineItems));
         return order;

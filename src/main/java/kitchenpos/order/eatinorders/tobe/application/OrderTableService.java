@@ -1,13 +1,13 @@
-package kitchenpos.eatinorders.application;
+package kitchenpos.order.eatinorders.tobe.application;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.UUID;
-import kitchenpos.eatinorders.tobe.domain.repository.OrderRepository;
-import kitchenpos.eatinorders.tobe.domain.vo.OrderStatus;
-import kitchenpos.eatinorders.tobe.domain.entity.OrderTable;
-import kitchenpos.eatinorders.tobe.domain.repository.OrderTableRepository;
+import kitchenpos.order.eatinorders.tobe.domain.repository.OrderRepository;
+import kitchenpos.order.common.domain.vo.OrderStatus;
+import kitchenpos.order.eatinorders.tobe.domain.entity.OrderTable;
+import kitchenpos.order.eatinorders.tobe.domain.repository.OrderTableRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
