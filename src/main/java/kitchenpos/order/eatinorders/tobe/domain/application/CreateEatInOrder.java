@@ -15,6 +15,7 @@ import kitchenpos.order.eatinorders.tobe.domain.repository.OrderRepository;
 import kitchenpos.order.eatinorders.tobe.domain.repository.OrderTableRepository;
 import kitchenpos.order.eatinorders.tobe.dto.CreateOrderDto;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @FunctionalInterface
 public interface CreateEatInOrder {
@@ -34,12 +35,13 @@ class DefaultCreateEatInOrder implements CreateEatInOrder {
         this.orderTableRepository = orderTableRepository;
     }
 
+    @Transactional
     @Override
     public Order execute(CreateOrderDto createEatInOrderDto) {
         this.validate(createEatInOrderDto);
         List<OrderLineItem> orderLineItems = new ArrayList<>();
         OrderTable orderTable = orderTableRepository.findById(createEatInOrderDto.getOrderTableId()).orElseThrow();
-        Order order = createEatInOrder(UUID.randomUUID(), orderLineItems, orderTable);
+        Order order = Order.createEatInOrder(UUID.randomUUID(), orderLineItems, orderTable);
         return orderRepository.save(order);
     }
 

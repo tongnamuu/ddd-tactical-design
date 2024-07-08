@@ -1,6 +1,6 @@
 package kitchenpos.eatinorders.application;
 
-import kitchenpos.order.eatinorders.tobe.application.OrderTableService;
+import kitchenpos.order.application.OrderTableService;
 import kitchenpos.order.eatinorders.tobe.domain.repository.OrderRepository;
 import kitchenpos.order.common.domain.vo.OrderStatus;
 import kitchenpos.order.eatinorders.tobe.domain.entity.OrderTable;

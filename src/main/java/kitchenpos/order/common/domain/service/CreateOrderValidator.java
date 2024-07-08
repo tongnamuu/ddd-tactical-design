@@ -25,7 +25,7 @@ class DefaultCreateOrderValidator implements CreateOrderValidator {
 
     @Override
     public void validate(CreateOrderDto createEatInOrderDto) {
-        if (createEatInOrderDto.getOrderType() == null || createEatInOrderDto.getOrderType() != OrderType.EAT_IN) {
+        if (createEatInOrderDto.getOrderType() == null) {
             throw new IllegalArgumentException("Invalid order type");
         }
         final List<CreateOrderLineItemDto> orderLineItemRequests = createEatInOrderDto.getOrderLineItems();
