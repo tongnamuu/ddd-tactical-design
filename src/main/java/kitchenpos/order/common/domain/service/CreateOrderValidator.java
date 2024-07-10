@@ -25,7 +25,7 @@ class DefaultCreateOrderValidator implements CreateOrderValidator {
 
     @Override
     public void validate(CreateOrderDto createEatInOrderDto) {
-        if (createEatInOrderDto.getOrderType() == null || createEatInOrderDto.getOrderType() != OrderType.EAT_IN) {
+        if (createEatInOrderDto.getOrderType() == null) {
             throw new IllegalArgumentException("Invalid order type");
         }
         final List<CreateOrderLineItemDto> orderLineItemRequests = createEatInOrderDto.getOrderLineItems();
@@ -33,9 +33,9 @@ class DefaultCreateOrderValidator implements CreateOrderValidator {
             throw new IllegalArgumentException();
         }
         final List<Menu> menus = menuRepository.findMenusByIdIn(
-            orderLineItemRequests.stream()
-                                 .map(CreateOrderLineItemDto::getMenuId)
-                                 .toList()
+                orderLineItemRequests.stream()
+                        .map(CreateOrderLineItemDto::getMenuId)
+                        .toList()
         );
         if (menus.size() != orderLineItemRequests.size()) {
             throw new IllegalArgumentException();
@@ -46,7 +46,7 @@ class DefaultCreateOrderValidator implements CreateOrderValidator {
                 throw new IllegalArgumentException();
             }
             final Menu menu = menuRepository.findMenuById(orderLineItemRequest.getMenuId())
-                                            .orElseThrow(NoSuchElementException::new);
+                    .orElseThrow(NoSuchElementException::new);
             if (!menu.isDisplayed()) {
                 throw new IllegalStateException();
             }

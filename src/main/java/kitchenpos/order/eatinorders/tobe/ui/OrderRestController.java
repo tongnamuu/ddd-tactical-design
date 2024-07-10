@@ -3,7 +3,7 @@ package kitchenpos.order.eatinorders.tobe.ui;
 import java.net.URI;
 import java.util.List;
 import java.util.UUID;
-import kitchenpos.order.eatinorders.tobe.application.OrderService;
+import kitchenpos.order.application.OrderService;
 import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
 import kitchenpos.order.eatinorders.tobe.dto.CreateOrderDto;
 import org.springframework.http.ResponseEntity;

@@ -22,7 +22,7 @@ class DefaultServeOrder implements ServeBaseOrder {
     @Override
     public Order execute(UUID orderId) {
         final Order order = orderRepository.findById(orderId)
-                                           .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(NoSuchElementException::new);
         if (order.getOrderStatus() != OrderStatus.ACCEPTED) {
             throw new IllegalStateException();
         }
