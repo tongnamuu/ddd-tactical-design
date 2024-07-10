@@ -1,34 +1,28 @@
 package kitchenpos.order.eatinorders.tobe.domain.application;
 
-import java.util.NoSuchElementException;
-import java.util.UUID;
-import kitchenpos.order.common.domain.vo.OrderStatus;
+import kitchenpos.order.common.domain.service.AcceptBaseOrder;
+import kitchenpos.order.common.domain.vo.OrderType;
 import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
-import kitchenpos.order.eatinorders.tobe.domain.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 @FunctionalInterface
 public interface AcceptEatInOrder {
-    Order execute(UUID orderId);
+    Order execute(Order order);
 }
 
 @Service
 class DefaultAcceptEatInOrder implements AcceptEatInOrder {
-    private final OrderRepository orderRepository;
+    private final AcceptBaseOrder acceptBaseOrder;
 
-    DefaultAcceptEatInOrder(OrderRepository orderRepository) {
-        this.orderRepository = orderRepository;
+    public DefaultAcceptEatInOrder(AcceptBaseOrder acceptBaseOrder) {
+        this.acceptBaseOrder = acceptBaseOrder;
     }
 
     @Override
-    public Order execute(UUID orderId) {
-        final Order order = orderRepository.findById(orderId)
-                                           .orElseThrow(NoSuchElementException::new);
-        if (order.getOrderStatus() != OrderStatus.WAITING) {
-            throw new IllegalStateException();
+    public Order execute(Order order) {
+        if (order.getOrderType() != OrderType.EAT_IN) {
+            throw new IllegalArgumentException("Order type is not EAT_IN");
         }
-        order.setOrderStatus(OrderStatus.ACCEPTED);
-        orderRepository.save(order);
-        return order;
+        return acceptBaseOrder.execute(order);
     }
 }
