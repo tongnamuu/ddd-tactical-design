@@ -1,8 +1,7 @@
 package kitchenpos.order.eatinorders.tobe.ui;
 
-import java.net.URI;
-import java.util.List;
-import java.util.UUID;
+import kitchenpos.order.application.AcceptOrderFacade;
+import kitchenpos.order.application.CreateOrderFacade;
 import kitchenpos.order.application.OrderService;
 import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
 import kitchenpos.order.eatinorders.tobe.dto.CreateOrderDto;
@@ -15,25 +14,34 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.net.URI;
+import java.util.List;
+import java.util.UUID;
+
 @RequestMapping("/api/orders")
 @RestController
 public class OrderRestController {
+    private final CreateOrderFacade createOrderFacade;
+    private final AcceptOrderFacade acceptOrderFacade;
     private final OrderService orderService;
 
-    public OrderRestController(final OrderService orderService) {
+    public OrderRestController(CreateOrderFacade createOrderFacade, AcceptOrderFacade acceptOrderFacade, OrderService orderService) {
+        this.createOrderFacade = createOrderFacade;
+        this.acceptOrderFacade = acceptOrderFacade;
         this.orderService = orderService;
     }
 
     @PostMapping
     public ResponseEntity<Order> create(@RequestBody final CreateOrderDto request) {
-        final Order response = orderService.create(request);
+        final Order response = createOrderFacade.createOrder(request);
         return ResponseEntity.created(URI.create("/api/orders/" + response.getId()))
                              .body(response);
     }
 
     @PutMapping("/{orderId}/accept")
     public ResponseEntity<Order> accept(@PathVariable final UUID orderId) {
-        return ResponseEntity.ok(orderService.accept(orderId));
+
+        return ResponseEntity.ok(acceptOrderFacade.acceptOrder(orderId));
     }
 
     @PutMapping("/{orderId}/serve")
