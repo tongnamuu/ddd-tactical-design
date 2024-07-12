@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.UUID;
-import kitchenpos.order.eatinorders.tobe.domain.repository.OrderRepository;
-import kitchenpos.order.common.domain.vo.OrderStatus;
-import kitchenpos.order.eatinorders.tobe.domain.entity.OrderTable;
-import kitchenpos.order.eatinorders.tobe.domain.repository.OrderTableRepository;
+import kitchenpos.order.common.tobe.domain.repository.OrderRepository;
+import kitchenpos.order.common.tobe.domain.vo.OrderStatus;
+import kitchenpos.order.common.tobe.domain.entity.OrderTable;
+import kitchenpos.order.common.tobe.domain.repository.OrderTableRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

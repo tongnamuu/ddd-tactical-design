@@ -2,7 +2,7 @@ package kitchenpos.order.eatinorders.tobe.dto;
 
 import java.util.List;
 import java.util.UUID;
-import kitchenpos.order.common.domain.vo.OrderType;
+import kitchenpos.order.common.tobe.domain.vo.OrderType;
 
 public class CreateOrderDto {
     private OrderType orderType;

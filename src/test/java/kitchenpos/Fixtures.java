@@ -1,10 +1,10 @@
 package kitchenpos;
 
-import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
-import kitchenpos.order.eatinorders.tobe.domain.entity.OrderLineItem;
-import kitchenpos.order.common.domain.vo.OrderStatus;
-import kitchenpos.order.eatinorders.tobe.domain.entity.OrderTable;
-import kitchenpos.order.common.domain.vo.OrderType;
+import kitchenpos.order.common.tobe.domain.entity.Order;
+import kitchenpos.order.common.tobe.domain.entity.OrderLineItem;
+import kitchenpos.order.common.tobe.domain.vo.OrderStatus;
+import kitchenpos.order.common.tobe.domain.entity.OrderTable;
+import kitchenpos.order.common.tobe.domain.vo.OrderType;
 import kitchenpos.menus.tobe.domain.entity.Menu;
 import kitchenpos.menus.tobe.domain.entity.MenuGroup;
 import kitchenpos.menus.tobe.domain.entity.MenuProduct;

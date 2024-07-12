@@ -1,9 +1,10 @@
 package kitchenpos.order.eatinorders.tobe.ui;
 
 import kitchenpos.order.application.AcceptOrderFacade;
+import kitchenpos.order.application.CompleteOrderFacade;
 import kitchenpos.order.application.CreateOrderFacade;
 import kitchenpos.order.application.OrderService;
-import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
+import kitchenpos.order.common.tobe.domain.entity.Order;
 import kitchenpos.order.eatinorders.tobe.dto.CreateOrderDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,11 +24,13 @@ import java.util.UUID;
 public class OrderRestController {
     private final CreateOrderFacade createOrderFacade;
     private final AcceptOrderFacade acceptOrderFacade;
+    private final CompleteOrderFacade completeOrderFacade;
     private final OrderService orderService;
 
-    public OrderRestController(CreateOrderFacade createOrderFacade, AcceptOrderFacade acceptOrderFacade, OrderService orderService) {
+    public OrderRestController(CreateOrderFacade createOrderFacade, AcceptOrderFacade acceptOrderFacade, CompleteOrderFacade completeOrderFacade, OrderService orderService) {
         this.createOrderFacade = createOrderFacade;
         this.acceptOrderFacade = acceptOrderFacade;
+        this.completeOrderFacade = completeOrderFacade;
         this.orderService = orderService;
     }
 
@@ -61,7 +64,7 @@ public class OrderRestController {
 
     @PutMapping("/{orderId}/complete")
     public ResponseEntity<Order> complete(@PathVariable final UUID orderId) {
-        return ResponseEntity.ok(orderService.complete(orderId));
+        return ResponseEntity.ok(completeOrderFacade.complete(orderId));
     }
 
     @GetMapping

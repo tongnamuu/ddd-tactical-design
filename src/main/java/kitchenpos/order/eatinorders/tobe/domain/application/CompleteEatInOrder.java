@@ -1,30 +1,29 @@
 package kitchenpos.order.eatinorders.tobe.domain.application;
 
-import java.util.NoSuchElementException;
-import java.util.UUID;
-import kitchenpos.order.common.domain.vo.OrderStatus;
-import kitchenpos.order.common.domain.vo.OrderType;
-import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
-import kitchenpos.order.eatinorders.tobe.domain.entity.OrderTable;
-import kitchenpos.order.eatinorders.tobe.domain.repository.OrderRepository;
+import kitchenpos.common.domainevent.DomainEventPublisher;
+import kitchenpos.order.common.tobe.domain.entity.Order;
+import kitchenpos.order.common.tobe.domain.entity.OrderTable;
+import kitchenpos.order.common.tobe.domain.repository.OrderRepository;
+import kitchenpos.order.common.tobe.domain.vo.OrderStatus;
+import kitchenpos.order.common.tobe.domain.vo.OrderType;
 import org.springframework.stereotype.Service;
 
 public interface CompleteEatInOrder {
-    Order execute(UUID orderId);
+    Order execute(Order order);
 }
 
 @Service
 class DefaultCompleteEatInOrder implements CompleteEatInOrder {
     private final OrderRepository orderRepository;
+    private final DomainEventPublisher domainEventPublisher;
 
-    public DefaultCompleteEatInOrder(OrderRepository orderRepository) {
+    public DefaultCompleteEatInOrder(OrderRepository orderRepository, DomainEventPublisher domainEventPublisher) {
         this.orderRepository = orderRepository;
+        this.domainEventPublisher = domainEventPublisher;
     }
 
     @Override
-    public Order execute(UUID orderId) {
-        final Order order = orderRepository.findById(orderId)
-                                           .orElseThrow(NoSuchElementException::new);
+    public Order execute(Order order) {
         if (order.getOrderType() != OrderType.EAT_IN) {
             throw new IllegalArgumentException("Order type is not EAT_IN");
         }
@@ -35,6 +34,7 @@ class DefaultCompleteEatInOrder implements CompleteEatInOrder {
 
         final OrderTable orderTable = order.getOrderTable();
         if (!orderRepository.existsByOrderTableAndStatusNot(orderTable, OrderStatus.COMPLETED)) {
+            System.out.println("####### here");
             orderTable.setNumberOfGuests(0);
             orderTable.setOccupied(false);
         }

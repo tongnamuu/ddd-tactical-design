@@ -1,9 +1,9 @@
 package kitchenpos.order.application;
 
-import kitchenpos.order.common.domain.vo.OrderType;
+import kitchenpos.order.common.tobe.domain.vo.OrderType;
 import kitchenpos.order.eatinorders.tobe.domain.application.AcceptEatInOrder;
-import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
-import kitchenpos.order.eatinorders.tobe.domain.repository.OrderRepository;
+import kitchenpos.order.common.tobe.domain.entity.Order;
+import kitchenpos.order.common.tobe.domain.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -1,4 +1,4 @@
-package kitchenpos.order.eatinorders.tobe.domain.entity;
+package kitchenpos.order.common.tobe.domain.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,12 +12,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import kitchenpos.order.common.tobe.domain.vo.OrderStatus;
+import kitchenpos.order.common.tobe.domain.vo.OrderType;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import kitchenpos.order.common.domain.vo.OrderStatus;
-import kitchenpos.order.common.domain.vo.OrderType;
 
 @Table(name = "orders")
 @Entity

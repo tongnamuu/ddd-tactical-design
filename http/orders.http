@@ -27,7 +27,7 @@ PUT {{host}}/api/orders/69d78f38-3bff-457c-bb72-26319c985fd8/start-delivery
 PUT {{host}}/api/orders/69d78f38-3bff-457c-bb72-26319c985fd8/complete-delivery
 
 ###
-PUT {{host}}/api/orders/69d78f38-3bff-457c-bb72-26319c985fd8/complete
+PUT {{host}}/api/orders/98da3d38-59e0-4dac-bbae-ebf6560a43bd/complete
 
 ###
 GET {{host}}/api/orders

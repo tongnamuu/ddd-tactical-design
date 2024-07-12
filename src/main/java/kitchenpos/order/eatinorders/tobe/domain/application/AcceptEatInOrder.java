@@ -1,8 +1,8 @@
 package kitchenpos.order.eatinorders.tobe.domain.application;
 
-import kitchenpos.order.common.domain.service.AcceptBaseOrder;
-import kitchenpos.order.common.domain.vo.OrderType;
-import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
+import kitchenpos.order.common.tobe.domain.service.AcceptBaseOrder;
+import kitchenpos.order.common.tobe.domain.vo.OrderType;
+import kitchenpos.order.common.tobe.domain.entity.Order;
 import org.springframework.stereotype.Service;
 
 @FunctionalInterface

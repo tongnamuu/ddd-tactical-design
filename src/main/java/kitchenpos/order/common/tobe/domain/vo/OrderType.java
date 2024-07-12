@@ -1,6 +1,6 @@
-package kitchenpos.order.common.domain.vo;
+package kitchenpos.order.common.tobe.domain.vo;
 
-import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
+import kitchenpos.order.common.tobe.domain.entity.Order;
 
 public enum OrderType {
     DELIVERY {

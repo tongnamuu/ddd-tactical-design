@@ -1,11 +1,10 @@
-package kitchenpos.order.common.domain.service;
+package kitchenpos.order.common.tobe.domain.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import kitchenpos.menus.tobe.domain.entity.Menu;
 import kitchenpos.menus.tobe.domain.repository.MenuRepository;
-import kitchenpos.order.common.domain.vo.OrderType;
 import kitchenpos.order.eatinorders.tobe.dto.CreateOrderDto;
 import kitchenpos.order.eatinorders.tobe.dto.CreateOrderLineItemDto;
 import org.springframework.stereotype.Service;

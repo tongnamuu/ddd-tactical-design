@@ -1,8 +1,8 @@
-package kitchenpos.order.common.domain.service;
+package kitchenpos.order.common.tobe.domain.service;
 
-import kitchenpos.order.common.domain.vo.OrderStatus;
-import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
-import kitchenpos.order.eatinorders.tobe.domain.repository.OrderRepository;
+import kitchenpos.order.common.tobe.domain.vo.OrderStatus;
+import kitchenpos.order.common.tobe.domain.entity.Order;
+import kitchenpos.order.common.tobe.domain.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
 public interface AcceptBaseOrder {

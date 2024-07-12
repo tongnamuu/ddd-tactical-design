@@ -1,18 +1,18 @@
 package kitchenpos.order.eatinorders.tobe.domain.application;
 
-import static kitchenpos.order.eatinorders.tobe.domain.entity.Order.createEatInOrder;
+import static kitchenpos.order.common.tobe.domain.entity.Order.createEatInOrder;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
-import kitchenpos.order.common.domain.service.CreateOrderValidator;
-import kitchenpos.order.common.domain.vo.OrderType;
-import kitchenpos.order.eatinorders.tobe.domain.entity.Order;
-import kitchenpos.order.eatinorders.tobe.domain.entity.OrderLineItem;
-import kitchenpos.order.eatinorders.tobe.domain.entity.OrderTable;
-import kitchenpos.order.eatinorders.tobe.domain.repository.OrderRepository;
-import kitchenpos.order.eatinorders.tobe.domain.repository.OrderTableRepository;
+import kitchenpos.order.common.tobe.domain.service.CreateOrderValidator;
+import kitchenpos.order.common.tobe.domain.vo.OrderType;
+import kitchenpos.order.common.tobe.domain.entity.Order;
+import kitchenpos.order.common.tobe.domain.entity.OrderLineItem;
+import kitchenpos.order.common.tobe.domain.entity.OrderTable;
+import kitchenpos.order.common.tobe.domain.repository.OrderRepository;
+import kitchenpos.order.common.tobe.domain.repository.OrderTableRepository;
 import kitchenpos.order.eatinorders.tobe.dto.CreateOrderDto;
 import org.springframework.stereotype.Service;
 
