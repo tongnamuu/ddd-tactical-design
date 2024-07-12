@@ -8,4 +8,8 @@ public class EatInOrderCompleted {
     public EatInOrderCompleted(OrderTable orderTable) {
         this.orderTable = orderTable;
     }
+
+    public OrderTable getOrderTable() {
+        return orderTable;
+    }
 }

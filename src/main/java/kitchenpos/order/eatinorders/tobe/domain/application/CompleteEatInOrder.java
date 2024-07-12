@@ -1,6 +1,7 @@
 package kitchenpos.order.eatinorders.tobe.domain.application;
 
 import kitchenpos.common.domainevent.DomainEventPublisher;
+import kitchenpos.common.domainevent.event.EatInOrderCompleted;
 import kitchenpos.order.common.tobe.domain.entity.Order;
 import kitchenpos.order.common.tobe.domain.entity.OrderTable;
 import kitchenpos.order.common.tobe.domain.repository.OrderRepository;
@@ -31,16 +32,10 @@ class DefaultCompleteEatInOrder implements CompleteEatInOrder {
         if (status != OrderStatus.SERVED) {
             throw new IllegalStateException();
         }
-
-        final OrderTable orderTable = order.getOrderTable();
-        if (!orderRepository.existsByOrderTableAndStatusNot(orderTable, OrderStatus.COMPLETED)) {
-            System.out.println("####### here");
-            orderTable.setNumberOfGuests(0);
-            orderTable.setOccupied(false);
-        }
-
         order.setOrderStatus(OrderStatus.COMPLETED);
         orderRepository.save(order);
+        final OrderTable orderTable = order.getOrderTable();
+        domainEventPublisher.publishEvent(new EatInOrderCompleted(orderTable));
         return order;
     }
 }

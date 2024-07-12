@@ -1,9 +1,9 @@
 package kitchenpos.order.eatinorders.tobe.ui;
 
-import kitchenpos.order.application.AcceptOrderFacade;
-import kitchenpos.order.application.CompleteOrderFacade;
-import kitchenpos.order.application.CreateOrderFacade;
-import kitchenpos.order.application.OrderService;
+import kitchenpos.order.common.tobe.application.AcceptOrderFacade;
+import kitchenpos.order.common.tobe.application.CompleteOrderFacade;
+import kitchenpos.order.common.tobe.application.CreateOrderFacade;
+import kitchenpos.order.common.tobe.application.OrderService;
 import kitchenpos.order.common.tobe.domain.entity.Order;
 import kitchenpos.order.eatinorders.tobe.dto.CreateOrderDto;
 import org.springframework.http.ResponseEntity;

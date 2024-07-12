@@ -1,4 +1,4 @@
-package kitchenpos.order.application;
+package kitchenpos.order.common.tobe.application;
 
 import kitchenpos.order.common.tobe.domain.vo.OrderType;
 import kitchenpos.order.eatinorders.tobe.domain.application.CreateEatInOrder;

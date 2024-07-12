@@ -1,4 +1,4 @@
-package kitchenpos.order.application;
+package kitchenpos.order.common.tobe.application;
 
 import kitchenpos.menus.tobe.domain.entity.Menu;
 import kitchenpos.menus.tobe.domain.repository.MenuRepository;

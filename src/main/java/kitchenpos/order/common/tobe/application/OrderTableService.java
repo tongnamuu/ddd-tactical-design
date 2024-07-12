@@ -1,4 +1,4 @@
-package kitchenpos.order.application;
+package kitchenpos.order.common.tobe.application;
 
 import java.util.List;
 import java.util.NoSuchElementException;
