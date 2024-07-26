@@ -8,6 +8,12 @@ public class CreateOrderLineItemDto {
     private BigDecimal price;
     private Long quantity;
 
+    public CreateOrderLineItemDto(UUID menuId, BigDecimal price, Long quantity) {
+        this.menuId = menuId;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
     public UUID getMenuId() {
         return menuId;
     }

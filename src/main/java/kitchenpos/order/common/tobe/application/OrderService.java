@@ -178,9 +178,8 @@ public class OrderService {
         order.setOrderStatus(OrderStatus.COMPLETED);
         if (type == OrderType.EAT_IN) {
             final OrderTable orderTable = order.getOrderTable();
-            if (!orderRepository.existsByOrderTableAndStatusNot(orderTable, OrderStatus.COMPLETED)) {
-                orderTable.setNumberOfGuests(0);
-                orderTable.setOccupied(false);
+            if (!orderRepository.existsByOrderTableAndStatusNot(orderTable.getId(), OrderStatus.COMPLETED)) {
+                orderTable.clearTable();
             }
         }
         return order;
