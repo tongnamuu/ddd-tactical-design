@@ -10,6 +10,8 @@ import kitchenpos.order.common.tobe.domain.repository.OrderTableRepository;
 import kitchenpos.order.common.tobe.domain.vo.OrderType;
 import kitchenpos.menus.tobe.domain.repository.InMemoryMenuRepository;
 import kitchenpos.menus.tobe.domain.repository.MenuRepository;
+import kitchenpos.order.eatinorders.tobe.dto.CreateOrderDto;
+import kitchenpos.order.eatinorders.tobe.dto.CreateOrderLineItemDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -351,16 +353,15 @@ class OrderServiceTest {
         assertThat(actual).hasSize(2);
     }
 
-    private Order createOrderRequest(
+    private CreateOrderDto createOrderRequest(
         final OrderType type,
         final String deliveryAddress,
-        final OrderLineItem... orderLineItems
+        final CreateOrderLineItemDto... orderLineItems
     ) {
-        final Order order = new Order();
-        order.setOrderType(type);
-        order.setDeliveryAddress(deliveryAddress);
-        order.setOrderLineItems(Arrays.asList(orderLineItems));
-        return order;
+        final CreateOrderDto createOrderDto = new CreateOrderDto(
+                type, deliveryAddress, Arrays.asList(orderLineItems)
+        );
+        return createOrderDto;
     }
 
     private Order createOrderRequest(final OrderType orderType, final OrderLineItem... orderLineItems) {
@@ -386,12 +387,10 @@ class OrderServiceTest {
         return order;
     }
 
-    private static OrderLineItem createOrderLineItemRequest(final UUID menuId, final long price, final long quantity) {
-        final OrderLineItem orderLineItem = new OrderLineItem();
-        orderLineItem.setSeq(new Random().nextLong());
-        orderLineItem.setMenuId(menuId);
-        orderLineItem.setPrice(BigDecimal.valueOf(price));
-        orderLineItem.setQuantity(quantity);
+    private static CreateOrderLineItemDto createOrderLineItemRequest(final UUID menuId, final long price, final long quantity) {
+        final CreateOrderLineItemDto orderLineItem = new CreateOrderLineItemDto(
+                menuId, BigDecimal.valueOf(price), quantity
+        );
         return orderLineItem;
     }
 }

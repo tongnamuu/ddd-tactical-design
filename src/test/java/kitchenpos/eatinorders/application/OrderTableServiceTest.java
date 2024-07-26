@@ -1,10 +1,12 @@
 package kitchenpos.eatinorders.application;
 
 import kitchenpos.order.common.tobe.application.OrderTableService;
-import kitchenpos.order.common.tobe.domain.repository.OrderRepository;
-import kitchenpos.order.common.tobe.domain.vo.OrderStatus;
 import kitchenpos.order.common.tobe.domain.entity.OrderTable;
+import kitchenpos.order.common.tobe.domain.repository.OrderRepository;
 import kitchenpos.order.common.tobe.domain.repository.OrderTableRepository;
+import kitchenpos.order.common.tobe.domain.vo.OrderStatus;
+import kitchenpos.order.eatinorders.tobe.domain.application.ClearOrderTable;
+import kitchenpos.order.eatinorders.tobe.domain.application.ClearOrderTableTestFixture;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,12 +27,14 @@ class OrderTableServiceTest {
     private OrderTableRepository orderTableRepository;
     private OrderRepository orderRepository;
     private OrderTableService orderTableService;
+    private ClearOrderTable clearOrderTable;
 
     @BeforeEach
     void setUp() {
         orderTableRepository = new InMemoryOrderTableRepository();
         orderRepository = new InMemoryOrderRepository();
-        orderTableService = new OrderTableService(orderTableRepository, orderRepository);
+        clearOrderTable = new ClearOrderTableTestFixture(orderTableRepository);
+        orderTableService = new OrderTableService(orderTableRepository, orderRepository, clearOrderTable);
     }
 
     @DisplayName("주문 테이블을 등록할 수 있다.")
