@@ -1,24 +1,28 @@
 package kitchenpos.order.common.tobe.application;
 
+import kitchenpos.order.common.tobe.domain.entity.OrderTable;
+import kitchenpos.order.common.tobe.domain.repository.OrderRepository;
+import kitchenpos.order.common.tobe.domain.repository.OrderTableRepository;
+import kitchenpos.order.common.tobe.domain.vo.OrderStatus;
+import kitchenpos.order.eatinorders.tobe.domain.application.ClearOrderTable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.UUID;
-import kitchenpos.order.common.tobe.domain.repository.OrderRepository;
-import kitchenpos.order.common.tobe.domain.vo.OrderStatus;
-import kitchenpos.order.common.tobe.domain.entity.OrderTable;
-import kitchenpos.order.common.tobe.domain.repository.OrderTableRepository;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OrderTableService {
     private final OrderTableRepository orderTableRepository;
     private final OrderRepository orderRepository;
+    private final ClearOrderTable clearOrderTable;
 
-    public OrderTableService(final OrderTableRepository orderTableRepository, final OrderRepository orderRepository) {
+    public OrderTableService(final OrderTableRepository orderTableRepository, final OrderRepository orderRepository, ClearOrderTable clearOrderTable) {
         this.orderTableRepository = orderTableRepository;
         this.orderRepository = orderRepository;
+        this.clearOrderTable = clearOrderTable;
     }
 
     @Transactional
@@ -45,14 +49,10 @@ public class OrderTableService {
 
     @Transactional
     public OrderTable clear(final UUID orderTableId) {
-        final OrderTable orderTable = orderTableRepository.findById(orderTableId)
-                .orElseThrow(NoSuchElementException::new);
-        if (orderRepository.existsByOrderTableAndStatusNot(orderTable, OrderStatus.COMPLETED)) {
+        if (orderRepository.existsByOrderTableAndStatusNot(orderTableId, OrderStatus.COMPLETED)) {
             throw new IllegalStateException();
         }
-        orderTable.setNumberOfGuests(0);
-        orderTable.setOccupied(false);
-        return orderTable;
+        return clearOrderTable.execute(orderTableId);
     }
 
     @Transactional

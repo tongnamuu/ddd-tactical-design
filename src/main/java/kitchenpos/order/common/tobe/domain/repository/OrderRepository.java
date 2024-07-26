@@ -1,7 +1,6 @@
 package kitchenpos.order.common.tobe.domain.repository;
 
 import kitchenpos.order.common.tobe.domain.entity.Order;
-import kitchenpos.order.common.tobe.domain.entity.OrderTable;
 import kitchenpos.order.common.tobe.domain.vo.OrderStatus;
 
 import java.util.List;
@@ -15,6 +14,6 @@ public interface OrderRepository {
 
     List<Order> findAll();
 
-    boolean existsByOrderTableAndStatusNot(OrderTable orderTable, OrderStatus status);
+    boolean existsByOrderTableAndStatusNot(UUID orderTableId, OrderStatus status);
 }
 

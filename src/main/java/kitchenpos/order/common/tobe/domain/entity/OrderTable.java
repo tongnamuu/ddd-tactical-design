@@ -56,4 +56,9 @@ public class OrderTable {
     public void setOccupied(final boolean occupied) {
         this.occupied = occupied;
     }
+
+    public void clearTable() {
+        this.occupied = false;
+        this.numberOfGuests = 0;
+    }
 }

@@ -1,7 +1,6 @@
 package kitchenpos.order.common.tobe.domain.infra.repository;
 
 import kitchenpos.order.common.tobe.domain.entity.Order;
-import kitchenpos.order.common.tobe.domain.entity.OrderTable;
 import kitchenpos.order.common.tobe.domain.repository.OrderRepository;
 import kitchenpos.order.common.tobe.domain.vo.OrderStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -38,12 +37,12 @@ class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
-    public boolean existsByOrderTableAndStatusNot(OrderTable orderTable, OrderStatus status) {
+    public boolean existsByOrderTableAndStatusNot(UUID orderTableId, OrderStatus status) {
         String sql = """
                 select id from orders
                 where order_table_id = '%s'
                 and status != '%s'
-                """.formatted(orderTable.getId(), status.name());
+                """.formatted(orderTableId, status.name());
         System.out.println("##### sql : " + sql);
         List<String> id = jdbcTemplate.query(sql, (rs, rowNum) -> rs.getString("id"));
         if (id.isEmpty()) {
