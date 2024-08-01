@@ -60,7 +60,7 @@ class OrderServiceTest {
     @Test
     void createDeliveryOrder() {
         final UUID menuId = menuRepository.saveMenu(menu(19_000L, true, menuProduct())).getId();
-        final Order expected = createOrderRequest(
+        final CreateOrderDto expected = createOrderRequest(
             OrderType.DELIVERY, "서울시 송파구 위례성대로 2", createOrderLineItemRequest(menuId, 19_000L, 3L)
         );
         final Order actual = orderService.create(expected);
@@ -96,7 +96,7 @@ class OrderServiceTest {
     void createEatInOrder() {
         final UUID menuId = menuRepository.saveMenu(menu(19_000L, true, menuProduct())).getId();
         final UUID orderTableId = orderTableRepository.save(orderTable(true, 4)).getId();
-        final Order expected = createOrderRequest(OrderType.EAT_IN, orderTableId, createOrderLineItemRequest(menuId, 19_000L, 3L));
+        final CreateOrderDto expected = createOrderRequest(OrderType.EAT_IN, orderTableId, createOrderLineItemRequest(menuId, 19_000L, 3L));
         final Order actual = orderService.create(expected);
         assertThat(actual).isNotNull();
         assertAll(
@@ -142,7 +142,7 @@ class OrderServiceTest {
     void createEatInOrder(final long quantity) {
         final UUID menuId = menuRepository.saveMenu(menu(19_000L, true, menuProduct())).getId();
         final UUID orderTableId = orderTableRepository.save(orderTable(true, 4)).getId();
-        final Order expected = createOrderRequest(
+        final CreateOrderDto expected = createOrderRequest(
             OrderType.EAT_IN, orderTableId, createOrderLineItemRequest(menuId, 19_000L, quantity)
         );
         assertDoesNotThrow(() -> orderService.create(expected));
@@ -153,7 +153,7 @@ class OrderServiceTest {
     @ParameterizedTest
     void createWithoutEatInOrder(final long quantity) {
         final UUID menuId = menuRepository.saveMenu(menu(19_000L, true, menuProduct())).getId();
-        final Order expected = createOrderRequest(
+        final CreateOrderDto expected = createOrderRequest(
             OrderType.TAKEOUT, createOrderLineItemRequest(menuId, 19_000L, quantity)
         );
         assertThatThrownBy(() -> orderService.create(expected))
@@ -165,7 +165,7 @@ class OrderServiceTest {
     @ParameterizedTest
     void create(final String deliveryAddress) {
         final UUID menuId = menuRepository.saveMenu(menu(19_000L, true, menuProduct())).getId();
-        final Order expected = createOrderRequest(
+        final CreateOrderDto expected = createOrderRequest(
             OrderType.DELIVERY, deliveryAddress, createOrderLineItemRequest(menuId, 19_000L, 3L)
         );
         assertThatThrownBy(() -> orderService.create(expected))
